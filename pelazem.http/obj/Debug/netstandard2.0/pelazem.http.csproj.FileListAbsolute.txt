@@ -1,0 +1,8 @@
+C:\Users\paelaz\Code\plzm.github\pelazem.http\pelazem.http\bin\Debug\netstandard2.0\pelazem.http.deps.json
+C:\Users\paelaz\Code\plzm.github\pelazem.http\pelazem.http\bin\Debug\netstandard2.0\pelazem.http.dll
+C:\Users\paelaz\Code\plzm.github\pelazem.http\pelazem.http\obj\Debug\netstandard2.0\pelazem.http.csproj.CoreCompileInputs.cache
+C:\Users\paelaz\Code\plzm.github\pelazem.http\pelazem.http\obj\Debug\netstandard2.0\pelazem.http.AssemblyInfoInputs.cache
+C:\Users\paelaz\Code\plzm.github\pelazem.http\pelazem.http\obj\Debug\netstandard2.0\pelazem.http.AssemblyInfo.cs
+C:\Users\paelaz\Code\plzm.github\pelazem.http\pelazem.http\bin\Debug\netstandard2.0\pelazem.http.pdb
+C:\Users\paelaz\Code\plzm.github\pelazem.http\pelazem.http\obj\Debug\netstandard2.0\pelazem.http.dll
+C:\Users\paelaz\Code\plzm.github\pelazem.http\pelazem.http\obj\Debug\netstandard2.0\pelazem.http.pdb
