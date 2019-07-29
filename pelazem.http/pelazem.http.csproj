@@ -2,6 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Patrick El-Azem (www.linkedin.com/in/pelazem)</Authors>
+    <Company>Patrick El-Azem (www.linkedin.com/in/pelazem)Patrick El-Azem (www.linkedin.com/in/pelazem)</Company>
+    <Description>A wrapper around HttpClient and Polly to implement Http retry with expontial backoff. Other utility functionality to be added.</Description>
+    <PackageProjectUrl>https://github.com/plzm/pelazem.http</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/plzm/pelazem.http</RepositoryUrl>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Version>1.1.0</Version>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

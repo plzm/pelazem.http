@@ -40,12 +40,12 @@ namespace pelazem.http
 		}
 
 		/// <summary>
-		/// Adds a header to each HTTP request that will be sent in this instance
+		/// Adds a request header to each HTTP request that will be sent in this instance
 		/// Common header: "Ocp-Apim-Subscription-Key" with an API key value
 		/// </summary>
 		/// <param name="headerName"></param>
 		/// <param name="value"></param>
-		public void AddHeader(string headerName, string value)
+		public void AddRequestHeader(string headerName, string value)
 		{
 			this.HttpClient.DefaultRequestHeaders.Add(headerName, value);
 		}
@@ -63,6 +63,17 @@ namespace pelazem.http
 			HttpContent result = new StringContent(contents, encoding, mediaType);
 
 			return result;
+		}
+
+		public void AddContentHeader(HttpContent content, string headerName, string value)
+		{
+			if (content == null || string.IsNullOrWhiteSpace(headerName) || string.IsNullOrWhiteSpace(value))
+				return;
+
+			if (content.Headers.Contains(headerName))
+				content.Headers.Remove(headerName);
+
+			content.Headers.Add(headerName, value);
 		}
 
 		public async Task<OpResult> PostAsync(string requestUri, HttpContent content)
