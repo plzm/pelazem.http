@@ -92,7 +92,7 @@ namespace pelazem.http
 
 				result.Succeeded = response.IsSuccessStatusCode;
 				result.Message = response.ReasonPhrase;
-				result.Output = response.Content;
+				result.Output = response;
 			}
 			catch (Exception ex)
 			{
@@ -118,7 +118,7 @@ namespace pelazem.http
 
 				result.Succeeded = response.IsSuccessStatusCode;
 				result.Message = response.ReasonPhrase;
-				result.Output = response.Content;
+				result.Output = response;
 			}
 			catch (Exception ex)
 			{
@@ -127,6 +127,11 @@ namespace pelazem.http
 			}
 
 			return result;
+		}
+
+		public async Task<string> GetHttpResponseContentAsync(HttpResponseMessage httpResponse)
+		{
+			return await httpResponse?.Content?.ReadAsStringAsync();
 		}
 
 		/// <summary>

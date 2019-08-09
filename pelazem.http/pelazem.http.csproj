@@ -9,8 +9,8 @@
     <PackageProjectUrl>https://github.com/plzm/pelazem.http</PackageProjectUrl>
     <RepositoryUrl>https://github.com/plzm/pelazem.http</RepositoryUrl>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>1.2.0</Version>
-    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <Version>1.2.2</Version>
+    <AssemblyVersion>1.2.2.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
