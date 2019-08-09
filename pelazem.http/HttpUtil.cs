@@ -76,6 +76,12 @@ namespace pelazem.http
 			content.Headers.Add(headerName, value);
 		}
 
+		/// <summary>
+		/// Invokes POST. Sets the HTTP response to the returned OpResult's Output property.
+		/// </summary>
+		/// <param name="requestUri"></param>
+		/// <param name="content"></param>
+		/// <returns></returns>
 		public async Task<OpResult> PostAsync(string requestUri, HttpContent content)
 		{
 			OpResult result = new OpResult();
@@ -86,9 +92,7 @@ namespace pelazem.http
 
 				result.Succeeded = response.IsSuccessStatusCode;
 				result.Message = response.ReasonPhrase;
-
-				if (response.IsSuccessStatusCode)
-					result.Output = await response.Content.ReadAsStringAsync();
+				result.Output = response.Content;
 			}
 			catch (Exception ex)
 			{
@@ -99,6 +103,11 @@ namespace pelazem.http
 			return result;
 		}
 
+		/// <summary>
+		/// Invokes GET. Sets the HTTP response to the returned OpResult's Output property.
+		/// </summary>
+		/// <param name="requestUri"></param>
+		/// <returns></returns>
 		public async Task<OpResult> GetAsync(string requestUri)
 		{
 			OpResult result = new OpResult();
@@ -109,9 +118,7 @@ namespace pelazem.http
 
 				result.Succeeded = response.IsSuccessStatusCode;
 				result.Message = response.ReasonPhrase;
-
-				if (response.IsSuccessStatusCode || (response.Content != null))
-					result.Output = await response.Content.ReadAsStringAsync();
+				result.Output = response.Content;
 			}
 			catch (Exception ex)
 			{
