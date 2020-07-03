@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using pelazem.util;
 
 namespace pelazem.http
 {
@@ -47,7 +43,25 @@ namespace pelazem.http
 		/// <param name="value"></param>
 		public void AddRequestHeader(string headerName, string value)
 		{
+			if (string.IsNullOrWhiteSpace(headerName))
+				return;
+
+			RemoveRequestHeader(headerName);
+
 			this.HttpClient.DefaultRequestHeaders.Add(headerName, value);
+		}
+
+		/// <summary>
+		/// Removes a request header from each HTTP request that will be sent in this instance - checks for header existence first
+		/// </summary>
+		/// <param name="headerName"></param>
+		public void RemoveRequestHeader(string headerName)
+		{
+			if (string.IsNullOrWhiteSpace(headerName))
+				return;
+
+			if (this.HttpClient.DefaultRequestHeaders.Contains(headerName))
+				this.HttpClient.DefaultRequestHeaders.Remove(headerName);
 		}
 
 		/// <summary>
@@ -56,7 +70,7 @@ namespace pelazem.http
 		/// <param name="contents">Appropriately serialized HTTP body content</param>
 		/// <param name="mediaType">HTTP media type expected by the URL, like "application/json" or "application/xml"</param>
 		/// <returns></returns>
-		public HttpContent GetHttpContent(string contents, string mediaType)
+		public HttpContent PrepareHttpContent(string contents, string mediaType)
 		{
 			Encoding encoding = Encoding.UTF8;
 
@@ -76,83 +90,19 @@ namespace pelazem.http
 			content.Headers.Add(headerName, value);
 		}
 
-		/// <summary>
-		/// Invokes POST. Sets the HTTP response to the returned OpResult's Output property.
-		/// </summary>
-		/// <param name="requestUri"></param>
-		/// <param name="content"></param>
-		/// <returns></returns>
-		public async Task<OpResult> PostAsync(string requestUri, HttpContent content)
+		public async Task<HttpResponseMessage> PostAsync(string requestUri, HttpContent content)
 		{
-			OpResult result = new OpResult();
-
-			try
-			{
-				HttpResponseMessage response = await this.HttpClient.PostAsync(requestUri, content);
-
-				result.Succeeded = response.IsSuccessStatusCode;
-				result.Message = response.ReasonPhrase;
-				result.Output = response;
-			}
-			catch (Exception ex)
-			{
-				result.Succeeded = false;
-				result.Exception = ex;
-			}
-
-			return result;
+			return await this.HttpClient.PostAsync(requestUri, content);
 		}
 
-		/// <summary>
-		/// Invokes GET. Sets the HTTP response to the returned OpResult's Output property.
-		/// </summary>
-		/// <param name="requestUri"></param>
-		/// <returns></returns>
-		public async Task<OpResult> GetAsync(string requestUri)
+		public async Task<HttpResponseMessage> GetAsync(string requestUri, HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
 		{
-			OpResult result = new OpResult();
-
-			try
-			{
-				HttpResponseMessage response = await this.HttpClient.GetAsync(requestUri, HttpCompletionOption.ResponseContentRead);
-
-				result.Succeeded = response.IsSuccessStatusCode;
-				result.Message = response.ReasonPhrase;
-				result.Output = response;
-			}
-			catch (Exception ex)
-			{
-				result.Succeeded = false;
-				result.Exception = ex;
-			}
-
-			return result;
+			return await this.HttpClient.GetAsync(requestUri, completionOption);
 		}
 
 		public async Task<string> GetHttpResponseContentAsync(HttpResponseMessage httpResponse)
 		{
 			return await httpResponse?.Content?.ReadAsStringAsync();
-		}
-
-		/// <summary>
-		/// Given an HTTP request body that is flat JSON and can be serialized to a dictionary of string keys and object values, performs that conversion
-		/// </summary>
-		/// <param name="requestBody"></param>
-		/// <returns></returns>
-		public IDictionary<string, object> ConvertRequestBody(string requestBody)
-		{
-			IDictionary<string, object> result = null;
-
-			var converter = new ExpandoObjectConverter();
-
-			// Deserialize the passed request body string to a dynamic ExpandoObject
-			var interim = JsonConvert.DeserializeObject<ExpandoObject>(requestBody, converter);
-
-			// If conversion succeeded, cast it as the return type
-			if (interim != null)
-				result = interim as IDictionary<string, object>;
-
-			return result;
 		}
 	}
 }
