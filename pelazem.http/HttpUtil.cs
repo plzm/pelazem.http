@@ -5,12 +5,19 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace pelazem.http
 {
 	public class HttpUtil
 	{
+		#region Variables
+
 		private HttpClient _httpClient = null;
+
+		#endregion
+
+		#region Properties
 
 		public ILogger Logger { get; set; }
 
@@ -34,6 +41,10 @@ namespace pelazem.http
 				return _httpClient;
 			}
 		}
+
+		#endregion
+
+		#region Utility
 
 		/// <summary>
 		/// Adds a request header to each HTTP request that will be sent in this instance
@@ -64,6 +75,11 @@ namespace pelazem.http
 				this.HttpClient.DefaultRequestHeaders.Remove(headerName);
 		}
 
+		public void RemoveAllRequestHeaders()
+		{
+			this.HttpClient.DefaultRequestHeaders.Clear();
+		}
+
 		/// <summary>
 		/// Prepares HTTP body content that can be used with POST
 		/// </summary>
@@ -90,19 +106,68 @@ namespace pelazem.http
 			content.Headers.Add(headerName, value);
 		}
 
-		public async Task<HttpResponseMessage> PostAsync(string requestUri, HttpContent content)
+		public void RemoveContentHeader(HttpContent content, string headerName)
 		{
-			return await this.HttpClient.PostAsync(requestUri, content);
+			if (content == null || string.IsNullOrWhiteSpace(headerName))
+				return;
+
+			if (content.Headers.Contains(headerName))
+				content.Headers.Remove(headerName);
 		}
+
+		public void RemoveAllContentHeaders(HttpContent content)
+		{
+			if (content == null)
+				return;
+
+			content.Headers.Clear();
+		}
+
+		public async Task<string> GetHttpResponseContentAsync(HttpResponseMessage httpResponseMessage, bool asFormattedJson = false)
+		{
+			string raw = await httpResponseMessage?.Content?.ReadAsStringAsync() ?? string.Empty;
+
+			if (!asFormattedJson || string.IsNullOrWhiteSpace(raw))
+				return raw;
+			else
+			{
+				dynamic parsed = JsonConvert.DeserializeObject(raw);
+				return AsJson(parsed, true);
+			}
+		}
+
+		public string AsJson(object serializeMe, bool asFormattedJson = false)
+		{
+			if (serializeMe == null)
+				return string.Empty;
+
+			return JsonConvert.SerializeObject(serializeMe, (asFormattedJson ? Formatting.Indented : Formatting.None));
+		}
+
+		#endregion
+
+		#region HTTP Operations
 
 		public async Task<HttpResponseMessage> GetAsync(string requestUri, HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
 		{
 			return await this.HttpClient.GetAsync(requestUri, completionOption);
 		}
 
-		public async Task<string> GetHttpResponseContentAsync(HttpResponseMessage httpResponse)
+		public async Task<HttpResponseMessage> PostAsync(string requestUri, HttpContent content)
 		{
-			return await httpResponse?.Content?.ReadAsStringAsync();
+			return await this.HttpClient.PostAsync(requestUri, content);
 		}
+
+		public async Task<HttpResponseMessage> PutAsync(string requestUri, HttpContent content)
+		{
+			return await this.HttpClient.PutAsync(requestUri, content);
+		}
+
+		public async Task<HttpResponseMessage> DeleteAsync(string requestUri)
+		{
+			return await this.HttpClient.DeleteAsync(requestUri);
+		}
+
+		#endregion
 	}
 }
