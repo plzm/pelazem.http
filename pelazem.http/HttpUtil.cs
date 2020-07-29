@@ -153,7 +153,17 @@ namespace pelazem.http
 			return await this.HttpClient.GetAsync(requestUri, completionOption);
 		}
 
+		public async Task<HttpResponseMessage> GetAsync(Uri requestUri, HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
+		{
+			return await this.HttpClient.GetAsync(requestUri, completionOption);
+		}
+
 		public async Task<HttpResponseMessage> PostAsync(string requestUri, HttpContent content)
+		{
+			return await this.HttpClient.PostAsync(requestUri, content);
+		}
+
+		public async Task<HttpResponseMessage> PostAsync(Uri requestUri, HttpContent content)
 		{
 			return await this.HttpClient.PostAsync(requestUri, content);
 		}
@@ -163,7 +173,17 @@ namespace pelazem.http
 			return await this.HttpClient.PutAsync(requestUri, content);
 		}
 
+		public async Task<HttpResponseMessage> PutAsync(Uri requestUri, HttpContent content)
+		{
+			return await this.HttpClient.PutAsync(requestUri, content);
+		}
+
 		public async Task<HttpResponseMessage> DeleteAsync(string requestUri)
+		{
+			return await this.HttpClient.DeleteAsync(requestUri);
+		}
+
+		public async Task<HttpResponseMessage> DeleteAsync(Uri requestUri)
 		{
 			return await this.HttpClient.DeleteAsync(requestUri);
 		}
