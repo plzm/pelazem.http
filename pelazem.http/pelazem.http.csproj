@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
+		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>Patrick El-Azem (www.linkedin.com/in/pelazem)</Authors>
 		<Company>Patrick El-Azem (www.linkedin.com/in/pelazem)</Company>
@@ -9,8 +9,8 @@
 		<PackageProjectUrl>https://github.com/plzm/pelazem.http</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/plzm/pelazem.http</RepositoryUrl>
 		<NeutralLanguage>en-US</NeutralLanguage>
-		<Version>2.4.0</Version>
-		<AssemblyVersion>2.4.0.0</AssemblyVersion>
+		<Version>2.5.0</Version>
+		<AssemblyVersion>2.5.0.0</AssemblyVersion>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	</PropertyGroup>
@@ -19,8 +19,9 @@
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" Condition="'$(TargetFramework)' == 'net5.0'" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.13" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-		<PackageReference Include="Polly" Version="7.2.1" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Polly" Version="7.2.3" />
 		<PackageReference Include="Polly.Extensions.Http" Version="3.0.0" />
 	</ItemGroup>
 
