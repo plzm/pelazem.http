@@ -11,14 +11,12 @@ using Polly.Timeout;
 
 namespace pelazem.http
 {
-	public class HttpRetryMessageHandler : DelegatingHandler
+	public class HttpRetryMessageHandler(HttpClientHandler handler) : DelegatingHandler(handler)
 	{
-		public ILogger Logger { get; set; }
+		public ILogger? Logger { get; set; }
 
 		public int HowManyRetries { get; set; } = 3;
 		public int RetryExponent { get; set; } = 2;
-
-		public HttpRetryMessageHandler(HttpClientHandler handler) : base(handler) { }
 
 		protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
 		{

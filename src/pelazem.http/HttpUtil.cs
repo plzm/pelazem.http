@@ -13,13 +13,13 @@ namespace pelazem.http
 	{
 		#region Variables
 
-		private HttpClient _httpClient = null;
+		private HttpClient? _httpClient = null;
 
 		#endregion
 
 		#region Properties
 
-		public ILogger Logger { get; set; }
+		public ILogger? Logger { get; set; }
 
 		public HttpClient HttpClient
 		{
@@ -123,7 +123,7 @@ namespace pelazem.http
 			content.Headers.Clear();
 		}
 
-		public async Task<string> GetHttpResponseContentAsync(HttpResponseMessage httpResponseMessage, bool asFormattedJson = false)
+		public async Task<string> GetHttpResponseContentAsync(HttpResponseMessage? httpResponseMessage, bool asFormattedJson = false)
 		{
 			string raw = await httpResponseMessage?.Content?.ReadAsStringAsync() ?? string.Empty;
 
@@ -131,7 +131,7 @@ namespace pelazem.http
 				return raw;
 			else
 			{
-				dynamic parsed = JsonConvert.DeserializeObject(raw);
+				dynamic? parsed = JsonConvert.DeserializeObject(raw);
 				return AsJson(parsed, true);
 			}
 		}
